@@ -1,9 +1,15 @@
 const fs = require('fs');
 
-const textIn = fs.readFileSync('./README.md', 'utf-8');
 
-console.log(textIn);
+//Blocking , Synchronous Way to Read and Write File
 
-const textOut = `${textIn}. \n Created on ${Date.now()}`;
+// const textIn = fs.readFileSync('./README.md', 'utf-8');
+// console.log(textIn);
+// const textOut = `${textIn}. \n Created on ${Date.now()}`;
+// fs.writeFileSync('./README.md', textOut);
 
-fs.writeFileSync('./README.md', textOut);
+//Non-Blocking, Asynchronous way
+
+fs.readFile('./README.md', 'utf-8', (err, data) =>{
+	console.log(data);
+});
