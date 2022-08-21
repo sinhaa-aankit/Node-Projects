@@ -23,8 +23,8 @@ app.use((req,res,next) => {
 });
 
 
-app.use('/api/v1/tours', tourRouter);// mounting multiple tours routes
-app.use('/api/v1/users', userRouter);// mounting multiple users routes
+app.use('/api/v1/tours', tourRouter); // mounting multiple tours routes
+app.use('/api/v1/users', userRouter); // mounting multiple users routes
 
 
 
