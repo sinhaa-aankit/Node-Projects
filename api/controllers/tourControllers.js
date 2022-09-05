@@ -5,7 +5,36 @@ const app = express();
 
 exports.getAllTours = async (req, res) => {
   try {
-    const allTour = await Tour.find();
+    //Building Query
+    const queryObj = { ...req.query };
+
+    // Excluding standard query fields
+    var excludedFields = ['page', 'sort', 'limit', 'fields'];
+
+    // excludedFields.forEach((el) => delete queryObj[el]);
+    for (let i = 0; i < 4; i++) {
+      delete queryObj[excludedFields[i]];
+    }
+    console.log(queryObj);
+    // filtering Method 1
+    const query = Tour.find(queryObj);
+
+    // Filtering Method 2 - (Hardcoding of method 1)
+    // const allTour = await Tour.find({
+    //   duration: 5,
+    //   difficulty: 'easy',
+    // });
+
+    // Filtering Method 3
+    // const allTour = await Tour.find()
+    //   .where('duration')
+    //   .equals(5)
+    //   .where('difficulty')
+    //   .equals('easy');
+
+    // Executing Query
+    const allTour = await query;
+
     res.status(200).json({
       status: 'success',
       results: allTour.length,
