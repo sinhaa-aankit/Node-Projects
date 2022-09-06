@@ -6,26 +6,33 @@ const app = express();
 exports.getAllTours = async (req, res) => {
   try {
     //Building Query
-    const queryObj = { ...req.query };
+    let queryObj = { ...req.query };
 
+    // Basic Filtering
     // Excluding standard query fields
-    var excludedFields = ['page', 'sort', 'limit', 'fields'];
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
 
     // excludedFields.forEach((el) => delete queryObj[el]);
     for (let i = 0; i < 4; i++) {
       delete queryObj[excludedFields[i]];
     }
-    console.log(queryObj);
-    // filtering Method 1
+
+    // Advanced Filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    queryObj = JSON.parse(queryStr);
+    console.log(queryStr);
+
+    // Method 1
     const query = Tour.find(queryObj);
 
-    // Filtering Method 2 - (Hardcoding of method 1)
+    // Method 2 - (Hardcoding of method 1)
     // const allTour = await Tour.find({
     //   duration: 5,
     //   difficulty: 'easy',
     // });
 
-    // Filtering Method 3
+    // Method 3
     // const allTour = await Tour.find()
     //   .where('duration')
     //   .equals(5)
