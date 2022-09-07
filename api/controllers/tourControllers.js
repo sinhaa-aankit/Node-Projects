@@ -37,6 +37,15 @@ exports.getAllTours = async (req, res) => {
       query = query.sort('-createdAt');
     }
 
+    // Filtering, If fields query is present
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      //Default filtering
+      query = query.select('-__v');
+    }
+
     // Method 2 - (Hardcoding of method 1)
     // const allTour = await Tour.find({
     //   duration: 5,
