@@ -1,8 +1,8 @@
 const express = require('express');
-const Tour = require('./../models/tourModel');
-const apiFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+const Tour = require('../models/tourModel');
+const apiFeatures = require('../utils/apiFeatures');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 const app = express();
 
 exports.aliasTopTours = async (req, res, next) => {
