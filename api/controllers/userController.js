@@ -1,15 +1,15 @@
 const express = require('express');
+const catchAsync = require('../utils/catchAsync');
 const app = express();
 const User = require('./../models/userModel');
 
-exports.getAllUsers = async (req, res) => {
-  const Users = await User.find();
+exports.getAllUsers = catchAsync(async (req, res) => {
+  const user = await User.find();
   res.status(200).json({
     status: 'success',
-    // message: 'This route is not yet defined',
-    data: Users,
+    data: user,
   });
-};
+});
 
 exports.getUser = (req, res) => {
   res.status(500).json({
