@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -12,8 +13,14 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 //Middleware
+
+//Set security HTTP headers
+app.use(helmet());
+
+//Development logging
 app.use(morgan('dev'));
 
+//Limit requests from same IP
 const limiter = rateLimit({
   max: 100,
   windows: 60 * 60 * 1000,
@@ -22,8 +29,10 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-app.use(express.json());
+//Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
 
+// test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   // console.log(req.headers);
